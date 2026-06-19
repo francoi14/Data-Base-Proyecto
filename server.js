@@ -1,21 +1,26 @@
-require('dotenv').config();
 const express = require('express');
+const mongoose = require('mongoose');
 const cors = require('cors');
-const connectDB = require('./config/db');
+require('dotenv').config();
 
 const app = express();
 
-// 1. Conectamos a la base de datos
-connectDB();
-
-// 2. Configuraciones (Middlewares) - ¡Siempre van antes que las rutas!
+// Middleware
 app.use(cors());
-app.use(express.json()); // Permite leer los datos que mandemos en JSON
+app.use(express.json());
 
-// 3. Rutas de nuestra API
-app.get('/', (req, res) => res.send('Servidor del Kiosco funcionando 🚀'));
+// Conexión a MongoDB (asegurate de tener tu MONGO_URI en el .env)
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/kioscoDB')
+    .then(() => console.log('Servidor conectado a MongoDB'))
+    .catch((err) => console.log('Error de conexión:', err));
+
+// Rutas
 app.use('/api/productos', require('./routes/productoRoutes'));
+app.use('/api/ventas', require('./routes/ventaRoutes'));
+app.use('/api/reportes', require('./routes/reporteRoutes'));
 
-// 4. Encender el servidor (¡Siempre al final de todo!)
+// Puerto
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`🚀 Servidor corriendo en puerto ${PORT}`));
+app.listen(PORT, () => {
+    console.log(`Servidor escuchando en puerto ${PORT}`);
+});
