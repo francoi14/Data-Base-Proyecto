@@ -8,50 +8,51 @@ router.get('/', async (req, res) => {
         const productos = await Producto.find();
         res.json(productos);
     } catch (error) {
-        res.status(500).json({ error: "Error al obtener productos" });
+        res.status(500).json({ message: error.message });
     }
 });
 
-// Crear o Actualizar stock (POST)
-// Si el producto existe, suma el stock y actualiza precio. Si no, crea uno nuevo.
+// Guardar nuevo producto
 router.post('/', async (req, res) => {
     try {
-        const { nombre, precio, stock, categoria, fechaVencimiento } = req.body;
+        const { nombre, precio, stock, fechaVencimiento, categoria } = req.body;
         
-        const productoExistente = await Producto.findOne({ nombre: nombre });
-
-        if (productoExistente) {
-            productoExistente.stock += parseInt(stock);
-            productoExistente.precio = precio;
-            await productoExistente.save();
-            res.json(productoExistente);
-        } else {
-            const nuevoProducto = new Producto(req.body);
-            await nuevoProducto.save();
-            res.json(nuevoProducto);
-        }
+        const nuevoProducto = new Producto({
+            nombre,
+            precio,
+            stock,
+            fechaVencimiento,
+            categoria
+        });
+        
+        await nuevoProducto.save();
+        res.status(201).json(nuevoProducto);
     } catch (error) {
-        res.status(400).json({ error: "Error al guardar producto" });
+        res.status(400).json({ message: error.message });
     }
 });
 
-// Actualizar producto (PUT) - Útil para cuando quieras corregir un nombre o dato específico
+// Editar producto
 router.put('/:id', async (req, res) => {
     try {
-        const productoActualizado = await Producto.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const productoActualizado = await Producto.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
         res.json(productoActualizado);
     } catch (error) {
-        res.status(400).json({ error: "Error al actualizar" });
+        res.status(400).json({ message: error.message });
     }
 });
 
-// Eliminar producto (DELETE)
+// Borrar producto
 router.delete('/:id', async (req, res) => {
     try {
         await Producto.findByIdAndDelete(req.params.id);
-        res.json({ message: "Producto eliminado correctamente" });
+        res.json({ message: 'Producto eliminado' });
     } catch (error) {
-        res.status(400).json({ error: "Error al eliminar" });
+        res.status(500).json({ message: error.message });
     }
 });
 
