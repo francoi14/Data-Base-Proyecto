@@ -18,6 +18,7 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/kioscoDB')
 app.use('/api/productos', require('./routes/productoRoutes'));
 app.use('/api/ventas', require('./routes/ventaRoutes'));
 app.use('/api/reportes', require('./routes/reporteRoutes'));
+app.use('/api/clientes', require('./routes/clienteRoutes'));
 
 // Puerto
 const PORT = process.env.PORT || 5001;
