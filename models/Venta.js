@@ -18,7 +18,7 @@ const VentaSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  // --- CAMPOS NUEVOS PARA LA RÚBRICA ---
+  
   estado: {
     type: String,
     enum: ['pendiente', 'enviado', 'entregado'],

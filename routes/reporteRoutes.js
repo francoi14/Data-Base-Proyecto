@@ -9,7 +9,7 @@ router.get('/datos', async (req, res) => {
         const hoy = new Date();
         let inicioFiltro = new Date();
 
-        // Lógica de filtrado
+        // LOgica de filtrado
         if (periodo === 'semanal') inicioFiltro.setDate(hoy.getDate() - 7);
         else if (periodo === 'mensual') inicioFiltro.setMonth(hoy.getMonth() - 1);
         else if (periodo === 'anual') inicioFiltro.setFullYear(hoy.getFullYear() - 1);
@@ -30,7 +30,7 @@ router.get('/datos', async (req, res) => {
 
         const resumenVentas = {};
         ventasDetalle.forEach(v => {
-            // ACÁ ESTÁ LA SOLUCIÓN: Cambiamos v.productoId por v.producto
+            
             const id = v.producto ? v.producto.toString() : 'desconocido';
             const nombre = prodMap[id] || 'Producto Eliminado';
             

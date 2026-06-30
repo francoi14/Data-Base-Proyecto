@@ -23,4 +23,24 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Actualizar un cliente (PUT)
+router.put('/:id', async (req, res) => {
+    try {
+        const clienteActualizado = await Cliente.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json(clienteActualizado);
+    } catch (err) {
+        res.status(500).send('Error al actualizar el cliente');
+    }
+});
+
+// Eliminar un cliente (DELETE)
+router.delete('/:id', async (req, res) => {
+    try {
+        await Cliente.findByIdAndDelete(req.params.id);
+        res.json({ mensaje: 'Cliente eliminado correctamente' });
+    } catch (err) {
+        res.status(500).send('Error al eliminar el cliente');
+    }
+});
+
 module.exports = router;

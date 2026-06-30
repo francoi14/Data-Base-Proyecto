@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Conexión a MongoDB (asegurate de tener tu MONGO_URI en el .env)
+// Conexión a MongoDB 
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/kioscoDB')
     .then(() => console.log('Servidor conectado a MongoDB'))
     .catch((err) => console.log('Error de conexión:', err));

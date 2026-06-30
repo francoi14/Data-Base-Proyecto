@@ -3,7 +3,7 @@ const router = express.Router();
 const Venta = require('../models/Venta');
 const Producto = require('../models/Producto');
 
-// Ruta GET actualizada con populate para traer los datos del cliente
+// Ruta GET 
 router.get('/', async (req, res) => {
   try {
     const ventas = await Venta.find().populate('cliente').sort({ fecha: -1 });
