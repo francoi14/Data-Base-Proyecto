@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 
-EXPOSE 5173
+EXPOSE 10000
 
 
-CMD ["npm", "run", "dev", "--", "--host"]
+CMD ["node", "server.js"]
